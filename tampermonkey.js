@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fast CSS reload
 // @namespace    http://tampermonkey.net/
-// @version      0.1.0
+// @version      0.2.0
 // @description  Cache-bust all the things
 // @author       maurice.vancreij@webqem.com
 // @include      *://*
@@ -44,14 +44,13 @@
 
   function bustCaches() {
     var url, type;
-    var domain = document.location.protocol + '//' + document.domain + '/';
     var time = new Date().getTime();
     var elems = [...document.querySelectorAll(rule)];
     var path = '';
     elems.map(elem => {
       type = (elem.getAttribute('href')) ? 'href' : 'src';
       try {
-        url = new URL(elem.getAttribute(type), domain);
+        url = new URL(elem[type]);
         url.searchParams.set('t', time);
         path = url.href.replace(swap, local);
         elem.setAttribute(type, path);
@@ -67,7 +66,7 @@
   bustCaches();
 
   window.addEventListener('keyup', function(evt) {
-    if (evt.key === '`') {
+    if (evt.key === '`' || evt.key === '~') {
       bustCaches();
     }
   });
