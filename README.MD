@@ -1,6 +1,6 @@
 # Cross-domain live updates.
 
-This TamperMonkey script adds a cache busting query to all assets on the page and replaces key urls with ones from localhost.
+A Tampermonkey script to substitute local images and styles on live sites.
 
 ## 1. Install TamperMonkey extention in your browser
 
@@ -23,7 +23,7 @@ In the top of the file edit the @name of your project and @match the domain of t
 // @name         Fast CSS reload
 // @namespace    http://tampermonkey.net/
 // @version      0.1.0
-// @description  Cache-bust all the things
+// @description  Substitute local assets on live sites
 // @author       maurice.vancreij@webqem.com
 // @include      *://*.domain.tld/*
 // @grant        GM_xmlhttpRequest
@@ -46,4 +46,16 @@ Then replace the domain and path in the constant "local" to the path to the loca
   const js = 'localhost/path/file.ext';
 ```
 
-The constants "css" and "js" allow extra assets to be inserted in the header.
+**rule : {Regexp}** - These elements on page will be affected.
+
+**swap : {Regexp}** - This regular expression will be used to replace the paths.
+
+**local : {String}** - The paths that match the regular expression will be replaced by this.
+
+**css : {String}** - This extra stylesheet will be included in the header.
+
+**js : {String}** - This extra script file will be included in the header.
+
+## Aditional functionality
+
+Pressing ```~``` will reload the assets without refreshing the page.
